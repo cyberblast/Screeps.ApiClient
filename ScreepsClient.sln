@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreepsConsole", "ScreepsConsole\ScreepsConsole.csproj", "{9F41790C-26CF-41EF-BA47-F4D47C1570D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreepsDemoConsole", "ScreepsDemoConsole\ScreepsDemoConsole.csproj", "{9F41790C-26CF-41EF-BA47-F4D47C1570D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreepsApi", "ScreepsApi\ScreepsApi.csproj", "{441075A4-AF0D-4719-B33C-931A99D4D6E6}"
 EndProject

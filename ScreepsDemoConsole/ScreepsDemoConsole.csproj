@@ -7,8 +7,8 @@
     <ProjectGuid>{9F41790C-26CF-41EF-BA47-F4D47C1570D0}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScreepsConsole</RootNamespace>
-    <AssemblyName>ScreepsConsole</AssemblyName>
+    <RootNamespace>ScreepsDemoConsole</RootNamespace>
+    <AssemblyName>ScreepsDemoConsole</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
