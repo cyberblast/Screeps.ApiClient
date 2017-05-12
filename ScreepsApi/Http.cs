@@ -6,6 +6,16 @@ using System.Text;
 
 namespace ScreepsApi
 {
+    internal class UrlParam
+    {
+        public string Key; 
+        public object Value;
+        public UrlParam(string key, object value)
+        {
+            Key = key;
+            Value = value;
+        }
+    }
     internal class Http
     {
         public delegate void CompletedHandler(HttpWebResponse response);
@@ -54,21 +64,7 @@ namespace ScreepsApi
             return result;
         }
 
-        private string Url(string baseUrl, string path, params KeyValuePair<string,string>[] args)
-        {
-            StringBuilder url = new StringBuilder(string.Concat(baseUrl, path));
-            if (args != null && args.Length > 0)
-            {
-                url.Append("?");
-                url.Append(
-                    string.Join("&", 
-                        args.Select(
-                            arg => string.Format("{0}={1}", arg.Key, arg.Value))));
-            }
-            return url.ToString();
-        }
-   
-        internal string Get(string baseUrl, string path, params KeyValuePair<string,string>[] args)
+        internal string Get(string baseUrl, string path, params UrlParam[] args)
         {
             // create a request
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(Url(baseUrl, path, args));
@@ -86,5 +82,21 @@ namespace ScreepsApi
             OnCompleted(httpResponse);
             return result;
         }
+
+        private string Url(string baseUrl, string path, params UrlParam[] args)
+        {
+            if (args != null && args.Length > 0)
+            {
+                StringBuilder url = new StringBuilder(string.Concat(baseUrl, path));
+                url.Append("?");
+                url.Append(
+                    string.Join("&",
+                        args.Select(
+                            arg => string.Format("{0}={1}", arg.Key, arg.Value))));
+                return url.ToString();
+            }
+            else return string.Concat(baseUrl, path);
+        }
+   
     }
 }
