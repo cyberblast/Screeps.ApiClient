@@ -1,0 +1,2 @@
+This is a client for the screeps API, inspired by [screepers/python-screeps](https://github.com/screepers/python-screeps) (thank you for the great [documentation](https://github.com/screepers/python-screeps/blob/master/docs/Endpoints.md)!). 
+The console application (ScreepsDemoConsole) is a sample consumer on how to use the client (ScreepsApi). 
