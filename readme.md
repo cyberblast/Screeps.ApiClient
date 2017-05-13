@@ -9,7 +9,8 @@ Client client = new Client(email, password);
 dynamic me = client.Me();
 Console.Write("User {0}, GCL: {1}", me.username, me.gcl);
 ```
-This way, the client is resistant to future changes to screeps API response.  
+This way, the client is resistant to future changes of screeps API responses. But you may need to adjust your consumer in those cases!  
+
 For your convenience, there is an inline documentation of how current responses are structured (according to documentation from screepers/python-screeps). It should also give you intellisense hints.
 ```C#
 /// <summary>
