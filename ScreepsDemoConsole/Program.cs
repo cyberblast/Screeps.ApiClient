@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using ScreepsApi;
 
 namespace ScreepsConsole
@@ -25,7 +22,7 @@ namespace ScreepsConsole
             {
                 dynamic me = client.Me();
                 Console.Write("User {0}, GCL: {1} ", me.username, me.gcl);
-                for (int i = 0; i<6; i++)
+                for (int i = 0; i<5; i++)
                 {
                     System.Threading.Thread.Sleep(1000);
                     Console.Write(".");
