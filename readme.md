@@ -9,3 +9,12 @@ Client client = new Client(email, password);
 dynamic me = client.Me();
 Console.Write("User {0}, GCL: {1}", me.username, me.gcl);
 ```
+This way, the client is resistant to future changes to screeps API response.  
+For your convenience, there is an inline documentation of how current responses are structured (according to documentation from screepers/python-screeps). It should also give you intellisense hints.
+```C#
+/// <summary>
+/// Information about logged in user
+/// </summary>
+/// <returns>{ ok, _id, email, username, cpu, badge: { type, color1, color2, color3, param, flip }, password, notifyPrefs: { sendOnline, errorsInterval, disabledOnMessages, disabled, interval }, gcl, credits, lastChargeTime, lastTweetTime, github: { id, username }, twitter: { username, followers_count } }</returns>
+public dynamic Me()
+```
