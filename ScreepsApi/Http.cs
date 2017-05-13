@@ -6,16 +6,6 @@ using System.Text;
 
 namespace ScreepsApi
 {
-    internal class UrlParam
-    {
-        public string Key; 
-        public object Value;
-        public UrlParam(string key, object value)
-        {
-            Key = key;
-            Value = value;
-        }
-    }
     internal class Http
     {
         public delegate void CompletedHandler(HttpWebResponse response);
@@ -98,5 +88,16 @@ namespace ScreepsApi
             else return string.Concat(baseUrl, path);
         }
    
+    }
+
+    internal class UrlParam
+    {
+        public string Key;
+        public object Value;
+        public UrlParam(string key, object value)
+        {
+            Key = key;
+            Value = value;
+        }
     }
 }

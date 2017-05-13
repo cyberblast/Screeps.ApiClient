@@ -16,16 +16,13 @@ namespace ScreepsApi
             http = new Http();
             baseUrl = ptr ? Path.PTR : Path.SERVER;
 
-            var signin = Connect(email, password);
-            if (signin.ok == 1)
+            var signIn = Connect(email, password);
+            if (signIn.ok == 1)
             {
-                token = signin.token;
+                token = signIn.token;
                 http.SetHeader("X-Token", token);
                 http.SetHeader("X-Username", token);
-                http.OnCompleted += (response) =>
-                {
-                    var newToken = http.UpdateHeader("X-Token");
-                };
+                http.OnCompleted += (response) => http.UpdateHeader("X-Token");
             }
             else
             {
