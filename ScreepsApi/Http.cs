@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Web.Script.Serialization;
 
 namespace ScreepsApi
 {
@@ -11,6 +12,12 @@ namespace ScreepsApi
         public event CompletedHandler OnCompleted = (r) => { };
         private WebHeaderCollection requestHeader = new WebHeaderCollection();
         private WebHeaderCollection responseHeader = new WebHeaderCollection();
+        private JavaScriptSerializer js;
+
+        public Http()
+        {
+            js = new JavaScriptSerializer();
+        }
 
         public void SetHeader(string name, string value)
         {
@@ -29,6 +36,11 @@ namespace ScreepsApi
             return h;
         }
 
+        internal string Post(string baseUrl, string path, object postData)
+        {
+            var json = js.Serialize(postData);
+            return Post(baseUrl, path, json);
+        }
         internal string Post(string baseUrl, string path, string json)
         {
             // create a request
