@@ -1,5 +1,6 @@
 ﻿using System;
 using ScreepsApi;
+using System.Collections.Generic;
 
 namespace ScreepsConsole
 {
@@ -20,6 +21,18 @@ namespace ScreepsConsole
             
             while (true)
             {
+                /*
+                // testing code upload/download
+                dynamic codeSet = client.CodeSet("test", new Dictionary<string, string> 
+                {
+                    {"main", "dummy"}
+                });
+                Console.WriteLine("CodeSet: {0} ", client.js.Serialize(codeSet));
+
+                dynamic codeGet = client.CodeGet("test");
+                Console.WriteLine("CodeGet: {0} ", client.js.Serialize(codeGet));
+                */
+
                 dynamic me = client.Me();
                 Console.Write("User {0}, GCL: {1} ", me.username, me.gcl);
                 for (int i = 0; i<5; i++)

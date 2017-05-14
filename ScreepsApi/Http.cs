@@ -50,7 +50,7 @@ namespace ScreepsApi
             var json = js.Serialize(postData);
             return Post(baseUrl, path, json);
         }
-        internal object Post(string baseUrl, string path, string json)
+        internal object Post(string baseUrl, string path, string json = null)
         {
             // create a request
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(baseUrl + path);
@@ -58,9 +58,12 @@ namespace ScreepsApi
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
 
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            if (!string.IsNullOrWhiteSpace(json))
             {
-                streamWriter.Write(json);
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    streamWriter.Write(json);
+                }
             }
 
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();

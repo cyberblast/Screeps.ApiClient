@@ -2,6 +2,7 @@
 {
     public struct Path
     {
+        public const string HOST = "https://screeps.com";
         public const string SERVER = "https://screeps.com/api";
         public const string PTR = "https://screeps.com/ptr/api";
         public const string CONNECT = "/auth/signin";

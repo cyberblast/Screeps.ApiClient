@@ -20,6 +20,8 @@ namespace ScreepsApi
         }
         public string Serialize(object obj)
         {
+            if (obj is DynamicJsonObject)
+                return js.Serialize( (obj as DynamicJsonObject).AsIDictionary() );
             return js.Serialize(obj);
         }
         public dynamic Deserialize(string json)
@@ -62,6 +64,11 @@ namespace ScreepsApi
             }
 
             return this.Dictionary.ContainsKey(binder.Name);
+        }
+
+        public IDictionary<string, object> AsIDictionary()
+        {
+            return Dictionary;
         }
     }
 
