@@ -13,6 +13,7 @@ namespace ScreepsApi
         {
             js = new Json();
             http = new Http();
+            http.Deserializer = Deserialize;
             baseUrl = ptr ? Path.PTR : Path.SERVER;
 
             var signIn = Connect(email, password);
@@ -29,6 +30,11 @@ namespace ScreepsApi
             }
         }
 
+        private dynamic Deserialize(string response)
+        {
+            return js.Deserialize(response);
+        }
+
         /// <summary>
         /// Log in to screeps API
         /// </summary>
@@ -37,12 +43,11 @@ namespace ScreepsApi
         /// <returns>{ok, token}</returns>
         private dynamic Connect(string email, string password)
         {
-            return js.Deserialize(
-                http.Post(baseUrl, Path.CONNECT, new 
-                {
-                    email = email, 
-                    password = password
-                }));
+            return http.Post(baseUrl, Path.CONNECT, new 
+            {
+                email = email, 
+                password = password
+            });
         }
 
         /// <summary>
@@ -51,8 +56,7 @@ namespace ScreepsApi
         /// <returns>{ ok, _id, email, username, cpu, badge: { type, color1, color2, color3, param, flip }, password, notifyPrefs: { sendOnline, errorsInterval, disabledOnMessages, disabled, interval }, gcl, credits, lastChargeTime, lastTweetTime, github: { id, username }, twitter: { username, followers_count } }</returns>
         public dynamic Me()
         {
-            return js.Deserialize(
-                http.Get(baseUrl, Path.ME));
+            return http.Get(baseUrl, Path.ME);
         }
 
         /// <summary>
@@ -63,10 +67,9 @@ namespace ScreepsApi
         /// <returns>{ ok, owner: { username, badge: { type, color1, color2, color3, param, flip } }, stats: { energyHarvested: [ { value, endTime } ], energyConstruction: [ { value, endTime } ], energyCreeps: [ { value, endTime } ], energyControl: [ { value, endTime } ], creepsProduced: [ { value, endTime } ], creepsLost: [ { value, endTime } ] }, statsMax: { energy1440, energyCreeps1440, energy8, energyControl8, creepsLost180, energyHarvested8, energy180, energyConstruction180, creepsProduced8, energyControl1440, energyCreeps8, energyHarvested1440, creepsLost1440, energyConstruction1440, energyHarvested180, creepsProduced180, creepsProduced1440, energyCreeps180, energyControl180, energyConstruction8, creepsLost8 } }</returns>
         public dynamic RoomOverview(string room, int interval = 10)
         {
-            return js.Deserialize(
-                http.Get(baseUrl, Path.ROOM_OVERVIEW,
+            return http.Get(baseUrl, Path.ROOM_OVERVIEW,
                     new UrlParam("interval", interval),
-                    new UrlParam("room", room)));
+                    new UrlParam("room", room));
         }
 
         /// <summary>
@@ -81,8 +84,7 @@ namespace ScreepsApi
             args[0] = new UrlParam("room", room);
             if (encoded) args[1] = new UrlParam("encoded", 1);
 
-            return js.Deserialize(
-                http.Get(baseUrl, Path.ROOM_TERRAIN, args));
+            return http.Get(baseUrl, Path.ROOM_TERRAIN, args);
         }
 
         /// <summary>
@@ -92,9 +94,8 @@ namespace ScreepsApi
         /// <returns>{ _id, status, novice }</returns>
         public dynamic RoomStatus(string room)
         {
-            return js.Deserialize(
-                http.Get(baseUrl, Path.ROOM_STATUS,
-                    new UrlParam("room", room)));
+            return http.Get(baseUrl, Path.ROOM_STATUS,
+                    new UrlParam("room", room));
         }
 
         /// <summary>
@@ -104,9 +105,8 @@ namespace ScreepsApi
         /// <returns>{ ok, time, rooms: [ { _id, lastPvpTime } ] }</returns>
         public dynamic Pvp(int interval = 50)
         {
-            return js.Deserialize(
-                http.Get(baseUrl, Path.PVP,
-                    new UrlParam("interval", interval)));
+            return http.Get(baseUrl, Path.PVP,
+                    new UrlParam("interval", interval));
         }
 
         /// <summary>
@@ -116,9 +116,8 @@ namespace ScreepsApi
         /// <returns>{ ok, time, rooms: [ { _id, lastPvpTime } ] }</returns>
         public dynamic PvpSince(int start)
         {
-            return js.Deserialize(
-                http.Get(baseUrl, Path.PVP,
-                    new UrlParam("start", start)));
+            return http.Get(baseUrl, Path.PVP,
+                    new UrlParam("start", start));
         }
 
         /// <summary>
@@ -127,8 +126,7 @@ namespace ScreepsApi
         /// <returns>{"ok":1,"list":[{"_id":"XUHO2","count":2}]}</returns>
         public dynamic OrdersIndex()
         {
-            return js.Deserialize(
-                http.Get(baseUrl, Path.ORDERS_INDEX));
+            return http.Get(baseUrl, Path.ORDERS_INDEX);
         }
 
         /// <summary>
@@ -137,8 +135,7 @@ namespace ScreepsApi
         /// <returns>{ ok, list: [ { _id, created, user, active, type, amount, remainingAmount, resourceType, price, totalAmount, roomName } ] }</returns>
         public dynamic OrdersMy()
         {
-            return js.Deserialize(
-                http.Get(baseUrl, Path.ORDERS_MY));
+            return http.Get(baseUrl, Path.ORDERS_MY);
         }
 
         /// <summary>
@@ -148,9 +145,8 @@ namespace ScreepsApi
         /// <returns>{ ok, list: [ { _id, created, user, active, type, amount, remainingAmount, resourceType, price, totalAmount, roomName } ] }</returns>
         public dynamic Orders(string resourceType)
         {
-            return js.Deserialize(
-                http.Get(baseUrl, Path.ORDERS,
-                    new UrlParam("resourceType", resourceType)));
+            return http.Get(baseUrl, Path.ORDERS,
+                    new UrlParam("resourceType", resourceType));
         }
 
         /// <summary>
@@ -159,8 +155,7 @@ namespace ScreepsApi
         /// <returns>{"ok":1,"page":0,"list":[ { _id, date, tick, user, type, balance, change, market: {} } ] }</returns>
         public dynamic MoneyHistory()
         {
-            return js.Deserialize(
-                http.Get(baseUrl, Path.MONEY_HIST));
+            return http.Get(baseUrl, Path.MONEY_HIST);
         }
 
         /// <summary>
@@ -169,8 +164,7 @@ namespace ScreepsApi
         /// <returns>{ ok, seasons: [ { _id, name, date } ] }</returns>
         public dynamic LeaderboardSeasons()
         {
-            return js.Deserialize(
-                http.Get(baseUrl, Path.LEADERBOARD_SEASONS));
+            return http.Get(baseUrl, Path.LEADERBOARD_SEASONS);
         }
 
         /// <summary>
@@ -187,8 +181,7 @@ namespace ScreepsApi
             args[1] = new UrlParam("mode", mode);
             if (!string.IsNullOrEmpty(season)) args[2] = new UrlParam("season", season);
 
-            return js.Deserialize(
-                http.Get(baseUrl, Path.LEADERBOARD_FIND, args));
+            return http.Get(baseUrl, Path.LEADERBOARD_FIND, args);
         }
 
         /// <summary>
@@ -201,12 +194,11 @@ namespace ScreepsApi
         /// <returns>{ ok, list: [ { _id, season, user, score, rank } ], count, users: { "user's _id": { _id, username, badge: { type, color1, color2, color3, param, flip }, gcl } } }</returns>
         public dynamic LeaderboardList(string season, int limit, int offset, string mode = "world")
         {
-            return js.Deserialize(
-                http.Get(baseUrl, Path.LEADERBOARD_LIST,
+            return http.Get(baseUrl, Path.LEADERBOARD_LIST,
                     new UrlParam("season", season),
                     new UrlParam("limit", limit),
                     new UrlParam("offset", offset),
-                    new UrlParam("mode", mode)));
+                    new UrlParam("mode", mode));
         }
 
         /// <summary>
@@ -215,8 +207,7 @@ namespace ScreepsApi
         /// <returns>{ ok, messages: [ { _id, message: { _id, user, respondent, date, type, text, unread } } ], users: { "user's _id": { _id, username, badge: { type, color1, color2, color3, param, flip } } } }</returns>
         public dynamic MessagesIndex()
         {
-            return js.Deserialize(
-                http.Get(baseUrl, Path.MESSAGES_INDEX));
+            return http.Get(baseUrl, Path.MESSAGES_INDEX);
         }
 
         /// <summary>
@@ -226,9 +217,8 @@ namespace ScreepsApi
         /// <returns>{ ok, messages: [ { _id, date, type, text, unread } ] }</returns>
         public dynamic MessagesList(string respondent)
         {
-            return js.Deserialize(
-                http.Get(baseUrl, Path.MESSAGES_LIST,
-                    new UrlParam("respondent", respondent)));
+            return http.Get(baseUrl, Path.MESSAGES_LIST,
+                    new UrlParam("respondent", respondent));
         }
 
         /// <summary>
@@ -239,12 +229,11 @@ namespace ScreepsApi
         /// <returns>{ ok }</returns>
         public dynamic MessagesSend(string respondent, string text)
         {
-            return js.Deserialize(
-                http.Post(baseUrl, Path.MESSAGES_SEND, new
+            return http.Post(baseUrl, Path.MESSAGES_SEND, new
                 {
                     respondent, 
                     text
-                }));
+                });
         }
 
         /// <summary>
@@ -253,8 +242,7 @@ namespace ScreepsApi
         /// <returns>{ ok, count }</returns>
         public dynamic MessagesUnreadCount()
         {
-            return js.Deserialize(
-                http.Get(baseUrl, Path.MESSAGES_UNREAD));
+            return http.Get(baseUrl, Path.MESSAGES_UNREAD);
         }
 
     }

@@ -13,10 +13,19 @@ namespace ScreepsApi
         private WebHeaderCollection requestHeader = new WebHeaderCollection();
         private WebHeaderCollection responseHeader = new WebHeaderCollection();
         private JavaScriptSerializer js;
+        public delegate object DeserializeHandler(string response);
+        public DeserializeHandler Deserializer = null;
 
         public Http()
         {
             js = new JavaScriptSerializer();
+        }
+
+        private object Deserialize(string response)
+        {
+            if (Deserializer != null)
+                return Deserializer.DynamicInvoke(response);
+            else return response;
         }
 
         public void SetHeader(string name, string value)
@@ -36,12 +45,12 @@ namespace ScreepsApi
             return h;
         }
 
-        internal string Post(string baseUrl, string path, object postData)
+        internal object Post(string baseUrl, string path, object postData)
         {
             var json = js.Serialize(postData);
             return Post(baseUrl, path, json);
         }
-        internal string Post(string baseUrl, string path, string json)
+        internal object Post(string baseUrl, string path, string json)
         {
             // create a request
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(baseUrl + path);
@@ -62,10 +71,10 @@ namespace ScreepsApi
             }
             responseHeader = httpResponse.Headers;
             OnCompleted(httpResponse);
-            return result;
+            return Deserialize(result);
         }
 
-        internal string Get(string baseUrl, string path, params UrlParam[] args)
+        internal object Get(string baseUrl, string path, params UrlParam[] args)
         {
             // create a request
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(Url(baseUrl, path, args));
@@ -81,7 +90,7 @@ namespace ScreepsApi
             }
             responseHeader = httpResponse.Headers;
             OnCompleted(httpResponse);
-            return result;
+            return Deserialize(result);
         }
 
         private string Url(string baseUrl, string path, params UrlParam[] args)
