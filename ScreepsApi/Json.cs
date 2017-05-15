@@ -41,6 +41,12 @@ namespace ScreepsApi
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
+            if (!this.Dictionary.ContainsKey(binder.Name))
+            {
+                result = null;
+                return true;
+            }
+
             try
             {
                 result = this.Dictionary[binder.Name];
@@ -63,12 +69,17 @@ namespace ScreepsApi
                 result = new List<object>((result as ArrayList).ToArray());
             }
 
-            return this.Dictionary.ContainsKey(binder.Name);
+            return true; //this.Dictionary.ContainsKey(binder.Name);
         }
 
         public IDictionary<string, object> AsIDictionary()
         {
             return Dictionary;
+        }
+
+        public void Set(string name, object value)
+        {
+            Dictionary[name] = value;
         }
     }
 

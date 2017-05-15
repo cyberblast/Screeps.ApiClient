@@ -6,7 +6,7 @@ using System.Web.Script.Serialization;
 
 namespace ScreepsApi
 {
-    internal class Http
+    public class Http
     {
         public delegate void CompletedHandler(HttpWebResponse response);
         public event CompletedHandler OnCompleted = (r) => { };
@@ -15,6 +15,8 @@ namespace ScreepsApi
         private JavaScriptSerializer js;
         public delegate object DeserializeHandler(string response);
         public DeserializeHandler Deserializer = null;
+        private NetworkCredential credential = null;
+        public string UserAgent = null;
 
         public Http()
         {
@@ -45,18 +47,36 @@ namespace ScreepsApi
             return h;
         }
 
-        internal object Post(string baseUrl, string path, object postData)
+        public void SetCredential(string username, string password)
+        {
+            credential = new NetworkCredential(username, password);
+        }
+
+        public object Post(string baseUrl, string path, object postData)
         {
             var json = js.Serialize(postData);
-            return Post(baseUrl, path, json);
+            return Post(baseUrl + path, json);
         }
-        internal object Post(string baseUrl, string path, string json = null)
+        public object Post(string baseUrl, string path, string json)
+        {
+            return Post(baseUrl + path, json);
+        }
+        public object Post(string url, object postData)
+        {
+            var json = js.Serialize(postData);
+            return Post(url, json);
+        }
+        public object Post(string url, string json)
         {
             // create a request
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(baseUrl + path);
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest.Headers = requestHeader;
+            if (!string.IsNullOrEmpty(UserAgent))
+                httpWebRequest.UserAgent = UserAgent;
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
+            if (credential != null)
+                httpWebRequest.Credentials = credential;
 
             if (!string.IsNullOrWhiteSpace(json))
             {
@@ -77,13 +97,21 @@ namespace ScreepsApi
             return Deserialize(result);
         }
 
-        internal object Get(string baseUrl, string path, params UrlParam[] args)
+        public object Get(string baseUrl, string path, params UrlParam[] args)
+        {
+            return Get(baseUrl + path, args);
+        }
+        public object Get(string url, params UrlParam[] args)
         {
             // create a request
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(Url(baseUrl, path, args));
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(Url(url, args));
             httpWebRequest.Headers = requestHeader;
+            if (!string.IsNullOrEmpty(UserAgent))
+                httpWebRequest.UserAgent = UserAgent;
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "GET";
+            if (credential != null)
+                httpWebRequest.Credentials = credential;
 
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
             string result = null;
@@ -96,11 +124,11 @@ namespace ScreepsApi
             return Deserialize(result);
         }
 
-        private string Url(string baseUrl, string path, params UrlParam[] args)
+        private string Url(string path, params UrlParam[] args)
         {
             if (args != null && args.Length > 0)
             {
-                StringBuilder url = new StringBuilder(string.Concat(baseUrl, path));
+                StringBuilder url = new StringBuilder(path);
                 url.Append("?");
                 url.Append(
                     string.Join("&",
@@ -108,12 +136,12 @@ namespace ScreepsApi
                             arg => string.Format("{0}={1}", arg.Key, arg.Value))));
                 return url.ToString();
             }
-            else return string.Concat(baseUrl, path);
+            else return path;
         }
    
     }
 
-    internal class UrlParam
+    public class UrlParam
     {
         public string Key;
         public object Value;

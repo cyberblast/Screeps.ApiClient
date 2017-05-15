@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Text;
 
 namespace ScreepsApi
 {
@@ -35,6 +38,31 @@ namespace ScreepsApi
         {
             return js.Deserialize(response);
         }
+
+        private byte[] Base64Decode(string encoded)
+        {
+            return Convert.FromBase64String(encoded);
+        }
+
+        private string UnGZip(byte[] zipped)
+        {
+            string result = null;
+            using (MemoryStream zipMemory = new MemoryStream(zipped))
+            using (GZipStream zipper = new GZipStream(zipMemory, CompressionMode.Decompress))
+            using (MemoryStream unzipped = new MemoryStream())
+            {
+                const int BUFFER = 4096;
+                byte[] buffer = new byte[BUFFER];
+                int size;
+                do{
+                    size = zipper.Read(buffer, 0, BUFFER);
+                    unzipped.Write(buffer, 0, size);
+                } while (size > 0);
+                result = Encoding.UTF8.GetString(unzipped.ToArray());
+            }
+            return result;
+        }
+
 
         /// <summary>
         /// Log in to screeps API
@@ -337,8 +365,15 @@ namespace ScreepsApi
         /// <returns>{ ok, data } data is the string gz: followed by base64-encoded gzipped JSON encoding of the requested memory path</returns>
         public dynamic UserMemoryGet(string path)
         {
-            return http.Get(baseUrl, Path.USER_MEMORY,
+            dynamic memory = http.Get(baseUrl, Path.USER_MEMORY,
                 new UrlParam("path", path));
+            if (memory.data == null) return memory;
+            string encoded = memory.data;
+            if (!string.IsNullOrWhiteSpace(encoded) && encoded.StartsWith("gz:"))
+            {
+                memory.Set("data", js.Deserialize(UnGZip(Base64Decode(encoded.Substring(3)))));
+            }
+            return memory;
         }
 
         /// <summary>

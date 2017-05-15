@@ -33,6 +33,12 @@ namespace ScreepsConsole
                 Console.WriteLine("CodeGet: {0} ", client.js.Serialize(codeGet));
                 */
 
+                /*
+                 * // testing memory access
+                dynamic memory = client.UserMemoryGet("creeps");
+                Console.WriteLine("memory: {0} ", client.js.Serialize(memory.data));
+                 */
+
                 dynamic me = client.Me();
                 Console.Write("User {0}, GCL: {1} ", me.username, me.gcl);
                 for (int i = 0; i<5; i++)
