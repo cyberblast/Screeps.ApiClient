@@ -201,7 +201,7 @@ namespace ScreepsApi
             args[1] = new UrlParam("mode", mode);
             if (!string.IsNullOrEmpty(season)) args[2] = new UrlParam("season", season);
 
-            return http.Get(baseUrl, Path.LEADERBOARD_FIND, args, null);
+            return http.Get(baseUrl, Path.LEADERBOARD_FIND, args);
         }
 
         /// <summary>
