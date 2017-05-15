@@ -146,7 +146,7 @@ namespace ScreepsApi
         /// <returns>{"ok":1,"list":[{"_id":"XUHO2","count":2}]}</returns>
         public dynamic OrdersIndex()
         {
-            return http.Get(baseUrl, Path.ORDERS_INDEX);
+            return http.Get(baseUrl, Path.ORDERS_INDEX, null);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace ScreepsApi
         /// <returns>{ ok, list: [ { _id, created, user, active, type, amount, remainingAmount, resourceType, price, totalAmount, roomName } ] }</returns>
         public dynamic OrdersMy()
         {
-            return http.Get(baseUrl, Path.ORDERS_MY);
+            return http.Get(baseUrl, Path.ORDERS_MY, null);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace ScreepsApi
         /// <returns>{"ok":1,"page":0,"list":[ { _id, date, tick, user, type, balance, change, market: {} } ] }</returns>
         public dynamic MoneyHistory()
         {
-            return http.Get(baseUrl, Path.MONEY_HIST);
+            return http.Get(baseUrl, Path.MONEY_HIST, null);
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace ScreepsApi
         /// <returns>{ ok, seasons: [ { _id, name, date } ] }</returns>
         public dynamic LeaderboardSeasons()
         {
-            return http.Get(baseUrl, Path.LEADERBOARD_SEASONS);
+            return http.Get(baseUrl, Path.LEADERBOARD_SEASONS, null);
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace ScreepsApi
             args[1] = new UrlParam("mode", mode);
             if (!string.IsNullOrEmpty(season)) args[2] = new UrlParam("season", season);
 
-            return http.Get(baseUrl, Path.LEADERBOARD_FIND, args);
+            return http.Get(baseUrl, Path.LEADERBOARD_FIND, args, null);
         }
 
         /// <summary>
@@ -227,7 +227,7 @@ namespace ScreepsApi
         /// <returns>{ ok, messages: [ { _id, message: { _id, user, respondent, date, type, text, unread } } ], users: { "user's _id": { _id, username, badge: { type, color1, color2, color3, param, flip } } } }</returns>
         public dynamic MessagesIndex()
         {
-            return http.Get(baseUrl, Path.MESSAGES_INDEX);
+            return http.Get(baseUrl, Path.MESSAGES_INDEX, null);
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace ScreepsApi
         /// <returns>{ ok, count }</returns>
         public dynamic MessagesUnreadCount()
         {
-            return http.Get(baseUrl, Path.MESSAGES_UNREAD);
+            return http.Get(baseUrl, Path.MESSAGES_UNREAD, null);
         }
 
         /// <summary>
@@ -271,7 +271,7 @@ namespace ScreepsApi
         /// <returns>{ ok, _id, email, username, cpu, badge: { type, color1, color2, color3, param, flip }, password, notifyPrefs: { sendOnline, errorsInterval, disabledOnMessages, disabled, interval }, gcl, credits, lastChargeTime, lastTweetTime, github: { id, username }, twitter: { username, followers_count } }</returns>
         public dynamic Me()
         {
-            return http.Get(baseUrl, Path.ME);
+            return http.Get(baseUrl, Path.ME, null);
         }
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace ScreepsApi
         /// <returns>{ ok, rooms: [ "room name" ] }</returns>
         public dynamic UserRespawnProhibitedRooms()
         {
-            return http.Get(baseUrl, Path.USER_PROHIBITED_ROOMS);
+            return http.Get(baseUrl, Path.USER_PROHIBITED_ROOMS, null);
         }
 
         /// <summary>
@@ -324,7 +324,7 @@ namespace ScreepsApi
         /// <returns>{ ok, status }</returns>
         public dynamic UserWorldStatus()
         {
-            return http.Get(baseUrl, Path.USER_STATUS);
+            return http.Get(baseUrl, Path.USER_STATUS, null);
         }
 
         /// <summary>
@@ -333,7 +333,7 @@ namespace ScreepsApi
         /// <returns>{ ok, room: [ "room name" ] }</returns>
         public dynamic UserWorldStartRoom()
         {
-            return http.Get(baseUrl, Path.USER_START);
+            return http.Get(baseUrl, Path.USER_START, null);
         }
 
         /// <summary>
@@ -342,7 +342,7 @@ namespace ScreepsApi
         /// <returns>{ ok, active }</returns>
         public dynamic UserSubscriptionTime()
         {
-            return http.Get(baseUrl, Path.USER_SUBSCRIPTION);
+            return http.Get(baseUrl, Path.USER_SUBSCRIPTION, null);
         }
 
         /// <summary>
@@ -552,7 +552,7 @@ namespace ScreepsApi
         /// <returns>{ ok, time }</returns>
         public dynamic Time()
         {
-            return http.Get(baseUrl, Path.TIME);
+            return http.Get(baseUrl, Path.TIME, null);
         }
 
         /// <summary>
@@ -605,7 +605,7 @@ namespace ScreepsApi
         public dynamic RoomHistory(string room, int sinceTick)
         {
             string path = string.Format("{0}/{1}/{2}.json", Path.ROOM_HISTORY, room, sinceTick);
-            return http.Get(Path.HOST, path);
+            return http.Get(Path.HOST, path, null);
         }
 
         /// <summary>
@@ -614,7 +614,7 @@ namespace ScreepsApi
         /// <returns>{ok, result: { ok, nModified, n }, connection: { id, host, port } }</returns>
         public dynamic ActivatePtr()
         {
-            return http.Post(Path.HOST, Path.ACTIVATE_PTR);
+            return http.Post(Path.HOST, Path.ACTIVATE_PTR, null);
         }
     }
 }
