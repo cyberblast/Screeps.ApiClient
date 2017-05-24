@@ -16,7 +16,7 @@ namespace Screeps.ApiClient
         public delegate object DeserializeHandler(string response);
         public DeserializeHandler Deserializer = null;
         private NetworkCredential credential = null;
-        public string UserAgent = null;
+        public string UserAgent = null, ContentType = null;
 
         public Http()
         {
@@ -73,7 +73,9 @@ namespace Screeps.ApiClient
             httpWebRequest.Headers = requestHeader;
             if (!string.IsNullOrEmpty(UserAgent))
                 httpWebRequest.UserAgent = UserAgent;
-            httpWebRequest.ContentType = "application/json";
+            if (!string.IsNullOrEmpty(ContentType))
+                httpWebRequest.ContentType = ContentType;
+            else httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
             if (credential != null)
                 httpWebRequest.Credentials = credential;
@@ -108,7 +110,9 @@ namespace Screeps.ApiClient
             httpWebRequest.Headers = requestHeader;
             if (!string.IsNullOrEmpty(UserAgent))
                 httpWebRequest.UserAgent = UserAgent;
-            httpWebRequest.ContentType = "application/json";
+            if (!string.IsNullOrEmpty(ContentType))
+                httpWebRequest.ContentType = ContentType;
+            else httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "GET";
             if (credential != null)
                 httpWebRequest.Credentials = credential;
