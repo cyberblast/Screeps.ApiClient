@@ -62,8 +62,7 @@ namespace Screeps.ApiClient
             }
             return result;
         }
-
-
+        
         /// <summary>
         /// Log in to screeps API
         /// </summary>
